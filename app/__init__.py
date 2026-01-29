@@ -1,26 +1,26 @@
 from flask import Flask
 from flask_bcrypt import Bcrypt
 from flask_cors import CORS
-
-# Initialize Flask app
-app = Flask(__name__)
-
-# Import config
 from app.config import Config
-app.config['SECRET_KEY'] = Config.SECRET_KEY
 
-# Enable CORS
-CORS(app)
+bcrypt = Bcrypt()
 
-# Initialize Bcrypt for password hashing
-bcrypt = Bcrypt(app)
+def create_app():
+    app = Flask(__name__)
+    app.config.from_object(Config)
 
-# Import routes (must be after app creation)
-from app.routes import auth_routes, admin_routes, hr_routes, employee_routes
+    CORS(app)
+    bcrypt.init_app(app)
 
-# Register Blueprints (if using blueprints)
-app.register_blueprint(auth_routes.auth_bp)
-app.register_blueprint(admin_routes.admin_bp)
-app.register_blueprint(hr_routes.hr_bp)
-app.register_blueprint(employee_routes.employee_bp)
+    from app.routes.auth_routes import auth_bp
+    from app.routes.admin_routes import admin_bp
+    from app.routes.hr_routes import hr_bp
+    from app.routes.employee_routes import employee_bp
+
+    app.register_blueprint(auth_bp)
+    app.register_blueprint(admin_bp)
+    app.register_blueprint(hr_bp)
+    app.register_blueprint(employee_bp)
+
+    return app
 

@@ -1,5 +1,9 @@
-from app import app
-from app.config import Config
+class Config:
+    SECRET_KEY = "super-secret-key"
+    DEBUG = True
 
-if __name__ == "__main__":
-    app.run(debug=Config.DEBUG, port=Config.PORT)
+    DB_HOST = "localhost"
+    DB_USER = "root"
+    DB_PASSWORD = "root"
+    DB_NAME = "payroll_db"
+
