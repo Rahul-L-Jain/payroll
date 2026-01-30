@@ -1,4 +1,6 @@
 from flask import Blueprint, jsonify
+from flask_jwt_extended import jwt_required, get_jwt_identity
+
 
 hr_bp = Blueprint("hr", __name__, url_prefix="/hr")
 
